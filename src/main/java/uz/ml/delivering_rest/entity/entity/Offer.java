@@ -4,7 +4,6 @@ import lombok.*;
 import uz.ml.delivering_rest.entity.Auditable;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Getter
@@ -15,10 +14,8 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 public class Offer extends Auditable {
     @ManyToOne
-    @JoinColumn(name = "region_id")
     private Region region;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
     private Product product;
 }

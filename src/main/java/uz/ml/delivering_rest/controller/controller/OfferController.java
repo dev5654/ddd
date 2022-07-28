@@ -19,7 +19,7 @@ public class OfferController extends AbstractController<OfferService> {
     }
 
     @PostMapping
-    public ResponseEntity<DataDTO<OfferGetDTO>> addOffer(@RequestBody OfferCreateDTO createDTO) {
+    public ResponseEntity<DataDTO<Long>> addOffer(@RequestBody OfferCreateDTO createDTO) {
         return service.create(createDTO);
     }
 }

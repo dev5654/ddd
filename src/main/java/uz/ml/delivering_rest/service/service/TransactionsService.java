@@ -1,25 +1,60 @@
 package uz.ml.delivering_rest.service.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.ml.delivering_rest.dto.response.AppErrorDTO;
 import uz.ml.delivering_rest.dto.response.DataDTO;
 import uz.ml.delivering_rest.dto.transactions.TransactionsCreateDTO;
 import uz.ml.delivering_rest.dto.transactions.TransactionsGetDTO;
+import uz.ml.delivering_rest.entity.entity.Carrier;
+import uz.ml.delivering_rest.entity.entity.Offer;
+import uz.ml.delivering_rest.entity.entity.Request;
+import uz.ml.delivering_rest.entity.entity.Transactions;
 import uz.ml.delivering_rest.mapper.mapper.TransactionsMapper;
+import uz.ml.delivering_rest.repository.repository.CarrierRepository;
+import uz.ml.delivering_rest.repository.repository.OfferRepository;
+import uz.ml.delivering_rest.repository.repository.RequestRepository;
 import uz.ml.delivering_rest.repository.repository.TransactionsRepository;
 import uz.ml.delivering_rest.service.AbstractService;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
+import java.util.Optional;
+
+import static ch.qos.logback.core.joran.spi.ConsoleTarget.findByName;
 
 @Service
 @Transactional
 public class TransactionsService extends AbstractService<TransactionsMapper, TransactionsRepository> {
-    public TransactionsService(TransactionsMapper mapper, TransactionsRepository repository) {
+
+    private final CarrierRepository carrierRepository;
+    private final RequestRepository requestRepository;
+    private final OfferRepository offerRepository;
+
+    public TransactionsService(TransactionsMapper mapper, TransactionsRepository repository, CarrierRepository carrierRepository, RequestRepository requestRepository, OfferRepository offerRepository) {
         super(mapper, repository);
+        this.carrierRepository = carrierRepository;
+        this.requestRepository = requestRepository;
+        this.offerRepository = offerRepository;
     }
 
-    public ResponseEntity<DataDTO<TransactionsGetDTO>> create(TransactionsCreateDTO createDTO) {
-        
-        return null;
+    public ResponseEntity<DataDTO<Long>> create(TransactionsCreateDTO createDTO) {
+        Optional<Carrier> optionalCarrier = carrierRepository.findByName(createDTO.getCarrierName());
+        Optional<Request> optionalRequest = requestRepository.findById(createDTO.getRequestId());
+        Optional<Offer> optionalOffer = offerRepository.findById(createDTO.getOfferId());
+        if (optionalOffer.isEmpty() || optionalCarrier.isEmpty() || optionalRequest.isEmpty())
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("carrier or request or offer not found").build()), HttpStatus.BAD_REQUEST);
+        if (repository.existsByOfferAndRequest(optionalOffer.get(), optionalRequest.get()))
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("this transaction already exist").build()), HttpStatus.BAD_REQUEST);
+        if (!Objects.equals(optionalRequest.get().getProduct().getId(), optionalOffer.get().getProduct().getId()))
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("request and offer do not belong to the same product ID").build()), HttpStatus.BAD_REQUEST);
+        if (optionalCarrier.get().getRegions().stream().noneMatch(o -> Objects.equals(o.getId(), optionalRequest.get().getRegion().getId())))
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("Carrier must serve both delivery and pickup locations").build()), HttpStatus.BAD_REQUEST);
+        Transactions transactions = mapper.fromCreateDTO(createDTO);
+        transactions.setCarrier(optionalCarrier.get());
+        transactions.setOffer(optionalOffer.get());
+        transactions.setRequest(optionalRequest.get());
+        return new ResponseEntity<>(new DataDTO<>(repository.save(transactions).getId()), HttpStatus.BAD_REQUEST);
     }
 }
