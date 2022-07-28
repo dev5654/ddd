@@ -9,6 +9,6 @@ import uz.ml.delivering_rest.dto.BaseDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OfferCreateDTO implements BaseDTO {
-    private Long regionId;
+    private String regionName;
     private Long productId;
 }
