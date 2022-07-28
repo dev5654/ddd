@@ -12,8 +12,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product extends Auditable {
-    private String title;
+    private String name;
     private String description;
-    private String imagePath;
     private String price;
 }

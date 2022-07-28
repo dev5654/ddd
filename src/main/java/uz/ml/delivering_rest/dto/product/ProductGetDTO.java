@@ -9,8 +9,7 @@ import uz.ml.delivering_rest.dto.GenericDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductGetDTO extends GenericDTO {
-    private String title;
+    private String name;
     private String description;
-    private String imagePath;
     private String price;
 }

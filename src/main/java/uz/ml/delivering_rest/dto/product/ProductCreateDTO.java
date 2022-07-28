@@ -9,8 +9,7 @@ import uz.ml.delivering_rest.dto.BaseDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductCreateDTO implements BaseDTO {
-    private String title;
+    private String name;
     private String description;
-    private String imagePath;
     private String price;
 }
