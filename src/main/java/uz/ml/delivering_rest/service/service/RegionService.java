@@ -12,7 +12,9 @@ import uz.ml.delivering_rest.mapper.mapper.RegionMapper;
 import uz.ml.delivering_rest.repository.repository.RegionRepository;
 import uz.ml.delivering_rest.service.AbstractService;
 
+import javax.persistence.OrderBy;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -27,5 +29,10 @@ public class RegionService extends AbstractService<RegionMapper, RegionRepositor
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("region already exist").build()), HttpStatus.BAD_REQUEST);
         Region save = repository.save(region);
         return new ResponseEntity<>(new DataDTO<>(mapper.toGetDTO(save)), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<DataDTO<?>> getAll() {
+        List<Region> all = repository.findAllSorted();
+        return new ResponseEntity<>(new DataDTO<>(all), HttpStatus.CREATED);
     }
 }
