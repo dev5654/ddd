@@ -16,8 +16,10 @@ import uz.ml.delivering_rest.repository.repository.RegionRepository;
 import uz.ml.delivering_rest.service.AbstractService;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -43,7 +45,9 @@ public class CarrierService extends AbstractService<CarrierMapper, CarrierReposi
     public ResponseEntity<DataDTO<List<CarrierGetDTO>>> getCarriersForRegion(String regionName) {
         Region region = regionRepository.findByName(regionName);
         if (Objects.nonNull(region)) {
-            List<Carrier> carriers = region.getCarriers();
+
+            List<Carrier> carriers = region.getCarriers().stream().sorted(Comparator.comparing(Carrier::getName)).toList();
+
             return new ResponseEntity<>(new DataDTO<>(mapper.toGetDTO(carriers)), HttpStatus.OK);
         }
         return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("Region not found").build()), HttpStatus.BAD_REQUEST);

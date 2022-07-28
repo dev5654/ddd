@@ -14,6 +14,6 @@ public interface RegionRepository extends JpaRepository<Region, Long>, BaseRepos
 
     Region findByName(String name);
 
-    @Query(value = "select * from region order by name asc", nativeQuery = true)
+    @Query(value = "select * from region order by name", nativeQuery = true)
     List<Region> findAllSorted();
 }
