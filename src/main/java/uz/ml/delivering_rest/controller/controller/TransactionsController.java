@@ -18,19 +18,12 @@ import uz.ml.delivering_rest.service.service.TransactionsService;
 @RequestMapping(value = "/transactions/*")
 public class TransactionsController extends AbstractController<TransactionsService> {
 
-    private final CarrierRepository carrierRepository;
-    private final RequestRepository requestRepository;
-    private final OfferRepository offerRepository;
-
-    public TransactionsController(TransactionsService service, CarrierRepository carrierRepository, RequestRepository requestRepository, OfferRepository offerRepository) {
+    public TransactionsController(TransactionsService service) {
         super(service);
-        this.carrierRepository = carrierRepository;
-        this.requestRepository = requestRepository;
-        this.offerRepository = offerRepository;
     }
 
     @PostMapping
-    public ResponseEntity<DataDTO<TransactionsGetDTO>> createTransaction(@RequestBody TransactionsCreateDTO createDTO) {
+    public ResponseEntity<DataDTO<Long>> createTransaction(@RequestBody TransactionsCreateDTO createDTO) {
         return service.create(createDTO);
     }
 }

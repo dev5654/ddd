@@ -1,5 +1,7 @@
 package uz.ml.delivering_rest.dto.offer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import uz.ml.delivering_rest.dto.GenericDTO;
 import uz.ml.delivering_rest.entity.entity.Product;
@@ -11,6 +13,6 @@ import uz.ml.delivering_rest.entity.entity.Region;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OfferGetDTO extends GenericDTO {
-    private Region region;
-    private Product product;
+    private String regionName;
+    private String productName;
 }

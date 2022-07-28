@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import uz.ml.delivering_rest.dto.offer.OfferCreateDTO;
-import uz.ml.delivering_rest.dto.offer.OfferGetDTO;
 import uz.ml.delivering_rest.dto.response.AppErrorDTO;
 import uz.ml.delivering_rest.dto.response.DataDTO;
 import uz.ml.delivering_rest.entity.entity.Offer;
@@ -28,7 +27,7 @@ public class OfferService extends AbstractService<OfferMapper, OfferRepository> 
     private final RegionRepository regionRepository;
     private final ProductRepository productRepository;
 
-    public ResponseEntity<DataDTO<OfferGetDTO>> create(OfferCreateDTO createDTO) {
+    public ResponseEntity<DataDTO<Long>> create(OfferCreateDTO createDTO) {
         if (!regionRepository.existsByName(createDTO.getRegionName())) {
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("Region not found").build()), HttpStatus.BAD_REQUEST);
         }
@@ -38,6 +37,6 @@ public class OfferService extends AbstractService<OfferMapper, OfferRepository> 
         Offer offer = mapper.fromCreateDTO(createDTO);
         offer.setRegion(regionRepository.findByName(createDTO.getRegionName()));
         offer.setProduct(productRepository.getById(createDTO.getProductId()));
-        return new ResponseEntity<>(new DataDTO<>(mapper.toGetDTO(repository.save(offer))), HttpStatus.CREATED);
+        return new ResponseEntity<>(new DataDTO<>(repository.save(offer).getId()), HttpStatus.CREATED);
     }
 }
