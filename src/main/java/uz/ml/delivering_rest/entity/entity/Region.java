@@ -5,6 +5,9 @@ import uz.ml.delivering_rest.entity.Auditable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,5 +20,6 @@ public class Region extends Auditable {
     private String name;
     private String otherFields;
 
-
+    @ManyToMany(mappedBy = "regions",fetch = FetchType.EAGER)
+    private List<Carrier> carrier;
 }
