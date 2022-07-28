@@ -21,7 +21,7 @@ public class RegionController extends AbstractController<RegionService> {
         return service.create(createDTO);
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<DataDTO<?>> getAllSortedRegions() {
         return service.getAll();
     }

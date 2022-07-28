@@ -14,6 +14,7 @@ import uz.ml.delivering_rest.service.AbstractService;
 
 import javax.persistence.OrderBy;
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -32,7 +33,8 @@ public class RegionService extends AbstractService<RegionMapper, RegionRepositor
     }
 
     public ResponseEntity<DataDTO<?>> getAll() {
-        List<Region> all = repository.findAllSorted();
-        return new ResponseEntity<>(new DataDTO<>(all), HttpStatus.CREATED);
+        List<Region> all = repository.findAll();
+        List<Region> regions = all.stream().sorted(Comparator.comparing(Region::getName)).toList();
+        return new ResponseEntity<>(new DataDTO<>(mapper.toGetDTO(regions)), HttpStatus.OK);
     }
 }
