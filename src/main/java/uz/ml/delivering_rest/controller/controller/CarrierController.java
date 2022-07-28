@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.ml.delivering_rest.controller.AbstractController;
 import uz.ml.delivering_rest.dto.carrier.CarrierCreateDTO;
 import uz.ml.delivering_rest.dto.carrier.CarrierGetDTO;
+import uz.ml.delivering_rest.dto.region.RegionGetDTO;
 import uz.ml.delivering_rest.dto.response.DataDTO;
 import uz.ml.delivering_rest.service.service.CarrierService;
 
@@ -19,10 +20,17 @@ public class CarrierController extends AbstractController<CarrierService> {
 
     @PostMapping
     public ResponseEntity<DataDTO<CarrierGetDTO>> addCarrier(@RequestBody CarrierCreateDTO createDTO) {
-     return service.create(createDTO);
+        return service.create(createDTO);
     }
+
     @GetMapping("getForRegion")
-    public ResponseEntity<DataDTO<List<CarrierGetDTO>>> getCarriersForRegion(@RequestParam String regionName){
+    public ResponseEntity<DataDTO<List<CarrierGetDTO>>> getCarriersForRegion(@RequestParam String regionName) {
         return service.getCarriersForRegion(regionName);
     }
+
+    @GetMapping("getRegionsByCarrier")
+    public ResponseEntity<DataDTO<List<RegionGetDTO>>> getRegionsInCarrier(@RequestParam Long carrierId) {
+        return service.getAll(carrierId);
+    }
+
 }
