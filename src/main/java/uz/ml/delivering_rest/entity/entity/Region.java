@@ -16,4 +16,6 @@ public class Region extends Auditable {
     @Column(unique = true)
     private String name;
     private String otherFields;
+
+
 }
