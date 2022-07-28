@@ -1,30 +1,56 @@
 package uz.ml.delivering_rest.service.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.ml.delivering_rest.dto.region.RegionGetDTO;
+import uz.ml.delivering_rest.dto.response.DataDTO;
+import uz.ml.delivering_rest.dto.statistisc.StatisticForRegion;
 import uz.ml.delivering_rest.entity.entity.Region;
-import uz.ml.delivering_rest.entity.entity.Transactions;
+import uz.ml.delivering_rest.mapper.mapper.RegionMapper;
 import uz.ml.delivering_rest.repository.repository.RegionRepository;
 import uz.ml.delivering_rest.repository.repository.TransactionsRepository;
+import uz.ml.delivering_rest.service.BaseService;
 
-import java.util.List;
+import java.util.*;
 
 @Service
-public class StatisticService {
+public class StatisticService implements BaseService {
 
-    public StatisticService(TransactionsRepository transactionsRepository, RegionRepository regionRepository) {
-        this.transactionsRepository = transactionsRepository;
+    List<StatisticForRegion> statisticForRegions = new ArrayList<>();
+
+    public StatisticService( RegionRepository regionRepository, RegionMapper mapper) {
         this.regionRepository = regionRepository;
+        this.mapper = mapper;
     }
 
-    private final TransactionsRepository transactionsRepository;
     private final RegionRepository regionRepository;
+    private final RegionMapper mapper;
 
     public ResponseEntity<?> deliveryRegionsPerNT() {
-        List<Transactions> transactions = transactionsRepository.findAll();
+        Map<Integer, List<RegionGetDTO>> map = new HashMap<>();
+        List<Region> regions = regionRepository.findAll();
+        List<RegionGetDTO> list = new ArrayList<>();
+        for (Region region : regions) {
+            RegionGetDTO regionGetDTO = mapper.toGetDTO(region);
+            if (map.isEmpty()) {
+                list.add(regionGetDTO);
+                map.put(region.getTransactionCount(), list);
+            } else {
+                map.forEach((integer, regions1) -> {
+                    if (integer == region.getTransactionCount()) {
+                        regions1.add(mapper.toGetDTO(region));
+                    }
+                });
+            }
+        }
 
-        return null;
+        map.forEach((integer, regions1) -> {
+            StatisticForRegion statisticForRegion = new StatisticForRegion(integer, regions1);
+            statisticForRegions.add(statisticForRegion);
+        });
+        return new ResponseEntity<>(statisticForRegions.stream()
+                .sorted(Comparator.comparing(StatisticForRegion::getTransactionNumber)).toList(), HttpStatus.OK);
     }
-
 
 }
