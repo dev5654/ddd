@@ -9,7 +9,7 @@ import uz.ml.delivering_rest.dto.BaseDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionsCreateDTO implements BaseDTO {
-    private Long carrierId;
+    private String carrierName;
 
     private Long requestId;
 
