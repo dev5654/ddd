@@ -1,6 +1,10 @@
 package uz.ml.delivering_rest.service.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import uz.ml.delivering_rest.dto.response.DataDTO;
+import uz.ml.delivering_rest.dto.transactions.TransactionsCreateDTO;
+import uz.ml.delivering_rest.dto.transactions.TransactionsGetDTO;
 import uz.ml.delivering_rest.mapper.mapper.TransactionsMapper;
 import uz.ml.delivering_rest.repository.repository.TransactionsRepository;
 import uz.ml.delivering_rest.service.AbstractService;
@@ -14,5 +18,8 @@ public class TransactionsService extends AbstractService<TransactionsMapper, Tra
         super(mapper, repository);
     }
 
-
+    public ResponseEntity<DataDTO<TransactionsGetDTO>> create(TransactionsCreateDTO createDTO) {
+        
+        return null;
+    }
 }
