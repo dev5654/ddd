@@ -10,4 +10,5 @@ import uz.ml.delivering_rest.mapper.GenericMapper;
 @Component
 @Mapper(componentModel = "spring")
 public interface CarrierMapper extends GenericMapper<CarrierCreateDTO, CarrierGetDTO, Carrier> {
+
 }
