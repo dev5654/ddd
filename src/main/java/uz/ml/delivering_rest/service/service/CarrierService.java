@@ -43,8 +43,8 @@ public class CarrierService extends AbstractService<CarrierMapper, CarrierReposi
     public ResponseEntity<DataDTO<List<CarrierGetDTO>>> getCarriersForRegion(String regionName) {
         Region region = regionRepository.findByName(regionName);
         if (Objects.nonNull(region)) {
-//            List<Carrier> carriers = region.getCarriers();
-//            return new ResponseEntity<>(new DataDTO<>(mapper.toGetDTO(carriers)), HttpStatus.OK);
+            List<Carrier> carriers = region.getCarriers();
+            return new ResponseEntity<>(new DataDTO<>(mapper.toGetDTO(carriers)), HttpStatus.OK);
         }
         return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("Region not found").build()), HttpStatus.BAD_REQUEST);
     }

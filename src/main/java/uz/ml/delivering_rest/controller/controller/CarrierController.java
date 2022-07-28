@@ -6,7 +6,6 @@ import uz.ml.delivering_rest.controller.AbstractController;
 import uz.ml.delivering_rest.dto.carrier.CarrierCreateDTO;
 import uz.ml.delivering_rest.dto.carrier.CarrierGetDTO;
 import uz.ml.delivering_rest.dto.response.DataDTO;
-import uz.ml.delivering_rest.entity.entity.Carrier;
 import uz.ml.delivering_rest.service.service.CarrierService;
 
 import java.util.List;
@@ -22,8 +21,8 @@ public class CarrierController extends AbstractController<CarrierService> {
     public ResponseEntity<DataDTO<CarrierGetDTO>> addCarrier(@RequestBody CarrierCreateDTO createDTO) {
      return service.create(createDTO);
     }
-    @GetMapping
-    public ResponseEntity<DataDTO<List<CarrierGetDTO>>> getCarriersForRegion(@RequestBody String regionName){
+    @GetMapping("getForRegion")
+    public ResponseEntity<DataDTO<List<CarrierGetDTO>>> getCarriersForRegion(@RequestParam String regionName){
         return service.getCarriersForRegion(regionName);
     }
 }

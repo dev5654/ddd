@@ -21,5 +21,5 @@ public class Region extends Auditable {
     private String otherFields;
 
     @ManyToMany(mappedBy = "regions",fetch = FetchType.EAGER)
-    private List<Carrier> carrier;
+    private List<Carrier> carriers;
 }
