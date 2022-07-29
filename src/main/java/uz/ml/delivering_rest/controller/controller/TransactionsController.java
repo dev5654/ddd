@@ -23,10 +23,9 @@ public class TransactionsController extends AbstractController<TransactionsServi
     public ResponseEntity<DataDTO<Long>> createTransaction(@RequestBody TransactionsCreateDTO createDTO) {
         return service.create(createDTO);
     }
-
     @GetMapping
-    public ResponseEntity<DataDTO<Boolean>> evaluateTransaction(Long transactionId, int score) {
-        return service.evaluateTransaction(transactionId, score);
+    public ResponseEntity<DataDTO<Boolean>> evaluateTransaction(Long transactionId,int score) {
+        return service.evaluateTransaction(transactionId,score);
     }
 
 }

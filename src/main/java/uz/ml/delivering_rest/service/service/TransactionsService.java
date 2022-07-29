@@ -58,4 +58,16 @@ public class TransactionsService extends AbstractService<TransactionsMapper, Tra
         transactions.getRequest().getRegion().setTransactionCount(transactions.getRequest().getRegion().getTransactionCount() + 1);
         return new ResponseEntity<>(new DataDTO<>(repository.save(transactions).getId()), HttpStatus.BAD_REQUEST);
     }
+
+    public ResponseEntity<DataDTO<Boolean>> evaluateTransaction(Long transactionId, int score) {
+        Optional<Transactions> optional = repository.findById(transactionId);
+        if (optional.isEmpty())
+            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("transaction not found").build()), HttpStatus.BAD_REQUEST);
+        if (score < 1 || score > 10)
+            return new ResponseEntity<>(new DataDTO<>(false), HttpStatus.BAD_REQUEST);
+        Transactions transactions = optional.get();
+        transactions.setScore(score);
+        repository.save(transactions);
+        return new ResponseEntity<>(new DataDTO<>(true), HttpStatus.OK);
+    }
 }
