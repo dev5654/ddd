@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uz.ml.delivering_rest.controller.AbstractController;
 import uz.ml.delivering_rest.dto.product.ProductCreateDTO;
 import uz.ml.delivering_rest.dto.product.ProductGetDTO;
-import uz.ml.delivering_rest.dto.response.DataDTO;
+import uz.ml.delivering_rest.response.Data;
 import uz.ml.delivering_rest.service.service.ProductService;
 
 @RestController
@@ -19,7 +19,7 @@ public class ProductController extends AbstractController<ProductService> {
     }
 
     @PostMapping
-    public ResponseEntity<DataDTO<ProductGetDTO>> createProduct(@RequestBody ProductCreateDTO createDTO) {
+    public ResponseEntity<Data<ProductGetDTO>> createProduct(@RequestBody ProductCreateDTO createDTO) {
         return service.create(createDTO);
     }
 }

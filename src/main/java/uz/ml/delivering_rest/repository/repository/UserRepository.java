@@ -7,4 +7,5 @@ import uz.ml.delivering_rest.repository.BaseRepository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, BaseRepository {
+    User findByUsername(String username);
 }
