@@ -16,12 +16,18 @@ public class StatisticController extends AbstractController<StatisticService> {
     }
 
     @GetMapping("deliveryRegionsPerNumberOfTran")
-    public ResponseEntity<?> deliveryRegionsPerNT(){
+    public ResponseEntity<?> deliveryRegionsPerNT() {
         return service.deliveryRegionsPerNT();
     }
-     @GetMapping("numberOfTranPerProduct")
-    public ResponseEntity<?> numberOfTranPerProduct(){
+
+    @GetMapping("numberOfTranPerProduct")
+    public ResponseEntity<?> numberOfTranPerProduct() {
         return service.numberOfTranPerProduct();
+    }
+
+    @GetMapping("scorePerCarrier")
+    public ResponseEntity<?> scorePerCarrier(Integer minimumScore) {
+        return service.scorePerCarrier(minimumScore);
     }
 
 }
