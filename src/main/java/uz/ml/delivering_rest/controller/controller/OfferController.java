@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.ml.delivering_rest.controller.AbstractController;
 import uz.ml.delivering_rest.dto.offer.OfferCreateDTO;
-import uz.ml.delivering_rest.dto.offer.OfferGetDTO;
-import uz.ml.delivering_rest.dto.response.DataDTO;
+import uz.ml.delivering_rest.response.Data;
 import uz.ml.delivering_rest.service.service.OfferService;
 
 @RestController
@@ -19,7 +18,7 @@ public class OfferController extends AbstractController<OfferService> {
     }
 
     @PostMapping
-    public ResponseEntity<DataDTO<Long>> addOffer(@RequestBody OfferCreateDTO createDTO) {
+    public ResponseEntity<Data<Long>> addOffer(@RequestBody OfferCreateDTO createDTO) {
         return service.create(createDTO);
     }
 }

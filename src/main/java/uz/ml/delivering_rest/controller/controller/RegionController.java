@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.ml.delivering_rest.controller.AbstractController;
 import uz.ml.delivering_rest.dto.region.RegionCreateDTO;
 import uz.ml.delivering_rest.dto.region.RegionGetDTO;
-import uz.ml.delivering_rest.dto.response.DataDTO;
-import uz.ml.delivering_rest.entity.entity.Region;
+import uz.ml.delivering_rest.response.Data;
 import uz.ml.delivering_rest.service.service.RegionService;
 
 @RestController
@@ -17,13 +16,12 @@ public class RegionController extends AbstractController<RegionService> {
     }
 
     @PostMapping()
-    public ResponseEntity<DataDTO<RegionGetDTO>> addRegion(@RequestBody RegionCreateDTO createDTO) {
-        System.out.println("123");
+    public ResponseEntity<Data<RegionGetDTO>> addRegion(@RequestBody RegionCreateDTO createDTO) {
         return service.create(createDTO);
     }
 
     @GetMapping()
-    public ResponseEntity<DataDTO<?>> getAllSortedRegions() {
+    public ResponseEntity<Data<?>> getAllSortedRegions() {
         return service.getAll();
     }
 }

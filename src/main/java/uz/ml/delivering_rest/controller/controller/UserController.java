@@ -26,7 +26,7 @@ public class UserController extends AbstractController<UserService> {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public Object login(@Valid @RequestBody UserLoginDTO dto) {
         HttpEntity<UserLoginDTO> entity = new HttpEntity<>(dto);
-        ResponseEntity<Object> exchange = new RestTemplate().exchange("http://localhost:8080/api/auth/login", HttpMethod.POST, entity, Object.class);
+        ResponseEntity<Object> exchange = new RestTemplate().exchange("http://localhost:8081/api/auth/login", HttpMethod.POST, entity, Object.class);
         return exchange.getBody();
     }
 
