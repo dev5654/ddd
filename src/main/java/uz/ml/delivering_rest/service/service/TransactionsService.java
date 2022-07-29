@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import uz.ml.delivering_rest.dto.response.AppErrorDTO;
 import uz.ml.delivering_rest.dto.response.DataDTO;
 import uz.ml.delivering_rest.dto.transactions.TransactionsCreateDTO;
+import uz.ml.delivering_rest.dto.transactions.TransactionsGetDTO;
 import uz.ml.delivering_rest.entity.entity.Carrier;
 import uz.ml.delivering_rest.entity.entity.Offer;
 import uz.ml.delivering_rest.entity.entity.Request;
@@ -20,6 +21,8 @@ import uz.ml.delivering_rest.service.AbstractService;
 import javax.transaction.Transactional;
 import java.util.Objects;
 import java.util.Optional;
+
+import static ch.qos.logback.core.joran.spi.ConsoleTarget.findByName;
 
 @Service
 @Transactional
@@ -53,18 +56,6 @@ public class TransactionsService extends AbstractService<TransactionsMapper, Tra
         transactions.setOffer(optionalOffer.get());
         transactions.setRequest(optionalRequest.get());
         transactions.getRequest().getRegion().setTransactionCount(transactions.getRequest().getRegion().getTransactionCount() + 1);
-        return new ResponseEntity<>(new DataDTO<>(repository.save(transactions).getId()), HttpStatus.OK);
-    }
-
-    public ResponseEntity<DataDTO<Boolean>> evaluateTransaction(Long transactionId, int score) {
-        if (!(score >= 1 && score <= 10))
-            return new ResponseEntity<>(new DataDTO<>(false), HttpStatus.BAD_REQUEST);
-        Optional<Transactions> optional = repository.findById(transactionId);
-        if (optional.isEmpty())
-            return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("transaction not found").build()), HttpStatus.BAD_REQUEST);
-        Transactions transactions = optional.get();
-        transactions.setScore(score);
-        repository.save(transactions);
-        return new ResponseEntity<>(new DataDTO<>(true), HttpStatus.OK);
+        return new ResponseEntity<>(new DataDTO<>(repository.save(transactions).getId()), HttpStatus.BAD_REQUEST);
     }
 }

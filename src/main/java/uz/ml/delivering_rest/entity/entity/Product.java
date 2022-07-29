@@ -14,5 +14,6 @@ import javax.persistence.Entity;
 public class Product extends Auditable {
     private String name;
     private String description;
-    private String price;
+    private int price;
+    private int transactionCount;
 }

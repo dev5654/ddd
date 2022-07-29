@@ -24,6 +24,4 @@ public class Transactions extends Auditable {
     @ManyToOne
     @JoinColumn(name = "offer_id")
     private Offer offer;
-
-    private int score;
 }

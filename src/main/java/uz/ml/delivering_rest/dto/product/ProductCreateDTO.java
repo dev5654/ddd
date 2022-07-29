@@ -11,5 +11,5 @@ import uz.ml.delivering_rest.dto.BaseDTO;
 public class ProductCreateDTO implements BaseDTO {
     private String name;
     private String description;
-    private String price;
+    private int price;
 }
