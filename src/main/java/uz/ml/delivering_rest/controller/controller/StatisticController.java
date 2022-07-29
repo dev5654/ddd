@@ -15,8 +15,13 @@ public class StatisticController extends AbstractController<StatisticService> {
         super(service);
     }
 
-    @GetMapping
+    @GetMapping("deliveryRegionsPerNumberOfTran")
     public ResponseEntity<?> deliveryRegionsPerNT(){
         return service.deliveryRegionsPerNT();
     }
+     @GetMapping("numberOfTranPerProduct")
+    public ResponseEntity<?> numberOfTranPerProduct(){
+        return service.numberOfTranPerProduct();
+    }
+
 }

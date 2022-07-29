@@ -11,5 +11,5 @@ import uz.ml.delivering_rest.dto.GenericDTO;
 public class ProductGetDTO extends GenericDTO {
     private String name;
     private String description;
-    private String price;
+    private int price;
 }

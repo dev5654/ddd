@@ -56,6 +56,7 @@ public class TransactionsService extends AbstractService<TransactionsMapper, Tra
         transactions.setOffer(optionalOffer.get());
         transactions.setRequest(optionalRequest.get());
         transactions.getRequest().getRegion().setTransactionCount(transactions.getRequest().getRegion().getTransactionCount() + 1);
+        transactions.getRequest().getProduct().setTransactionCount(transactions.getRequest().getProduct().getTransactionCount() + 1);
         return new ResponseEntity<>(new DataDTO<>(repository.save(transactions).getId()), HttpStatus.BAD_REQUEST);
     }
 }
