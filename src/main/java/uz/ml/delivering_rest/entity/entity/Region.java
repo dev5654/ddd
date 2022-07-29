@@ -16,7 +16,7 @@ public class Region extends Auditable {
     @Column(unique = true)
     private String name;
     private String otherFields;
-    private Integer transactionCount;
+    private Integer transactionCount = 0;
     @ManyToMany(mappedBy = "regions", fetch = FetchType.EAGER)
     private List<Carrier> carriers;
 }

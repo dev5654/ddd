@@ -15,5 +15,5 @@ public class Product extends Auditable {
     private String name;
     private String description;
     private int price;
-    private int transactionCount;
+    private Integer transactionCount = 0;
 }

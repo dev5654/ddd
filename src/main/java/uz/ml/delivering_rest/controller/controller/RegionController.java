@@ -18,6 +18,7 @@ public class RegionController extends AbstractController<RegionService> {
 
     @PostMapping()
     public ResponseEntity<DataDTO<RegionGetDTO>> addRegion(@RequestBody RegionCreateDTO createDTO) {
+        System.out.println("123");
         return service.create(createDTO);
     }
 

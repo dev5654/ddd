@@ -31,7 +31,7 @@ public class RequestService extends AbstractService<RequestMapper, RequestReposi
         this.productRepository = productRepository;
     }
 
-    public ResponseEntity<DataDTO<RequestGetDTO>> addRequest(RequestCreateDTO createDTO) {
+    public ResponseEntity<DataDTO<Long>> addRequest(RequestCreateDTO createDTO) {
         Optional<Product> optionalProduct = productRepository.findById(createDTO.getProductId());
         if (!regionRepository.existsByName(createDTO.getRegionName()))
             return new ResponseEntity<>(new DataDTO<>(AppErrorDTO.builder().message("region not found").build()), HttpStatus.BAD_REQUEST);
@@ -40,6 +40,6 @@ public class RequestService extends AbstractService<RequestMapper, RequestReposi
         Request request = new Request();
         request.setProduct(optionalProduct.get());
         request.setRegion(regionRepository.findByName(createDTO.getRegionName()));
-        return new ResponseEntity<>(new DataDTO<>(mapper.toGetDTO(repository.save(request))), HttpStatus.OK);
+        return new ResponseEntity<>(new DataDTO<>(repository.save(request).getId()), HttpStatus.OK);
     }
 }
