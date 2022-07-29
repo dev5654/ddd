@@ -95,4 +95,5 @@ public class StatisticService implements BaseService {
         List<StatisticForCarrierScore> statisticForCarrierScores = carrierStatistics.stream().sorted(Comparator.comparing(o -> o.getCarrier().getName())).collect(Collectors.toList());
         return new ResponseEntity<>(new DataDTO<>(statisticForCarrierScores), HttpStatus.OK);
     }
+    // 123
 }
